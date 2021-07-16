@@ -1,0 +1,33 @@
+<button onclick="test()">test<button>
+<script>
+function test (event){
+  $.ajax({
+      beforeSend: function () {
+          // a 'Loading' 
+      },
+      type: 'POST',
+      url: 'https://aws.us-east-1.amazon.com',
+      contentType: 'application/json; charset=utf-8',
+      data: { aws_ec2_status: 'stopped'},
+      dataType: 'json',
+
+      success: function (json) {
+          try {
+              json = JSON.parse(json.d);
+              // now you have a json object to play with, and if its a string, then you can """save""" using eg. input hidden
+
+          } catch (ex) {
+              alert(ex);//show the error parsing json
+          }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+
+          var r = jQuery.parseJSON(xhr.responseText);
+          alert(r); // show the error of callback
+      },
+      complete: function (json) {
+          alert('sucess!');
+      }
+  });
+}
+</script>
